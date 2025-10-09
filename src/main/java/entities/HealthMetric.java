@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @Table(name = "health_metrics")
@@ -27,5 +28,53 @@ public class HealthMetric {
     private HealthProfile profile;
 
     public HealthMetric() {}
+
+    public int getId(){
+        return this.id;
+    }
+
+    public BigDecimal getValue(){
+        return this.value;
+    }
+
+    public String getType(){
+        return this.type;
+    }
+
+    public HealthProfile getProfile(){
+        return this.profile;
+    }
+
+    public void setValue(BigDecimal value){
+        this.value = value;
+    }
+
+    public void setType(String type){
+        this.type = type;
+    }
+
+    public void setProfile(HealthProfile profile){
+        this.profile = profile;
+    }
+
+    @Override
+    public String toString() {
+        return "HealthMetric [id=" + id + ", value=" + value + ", type=" + type + "]";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        HealthMetric other = (HealthMetric) obj;
+        return id == other.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
 }
