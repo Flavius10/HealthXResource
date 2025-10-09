@@ -3,6 +3,7 @@ package entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import entities.enums.HealthMetricType;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -19,8 +20,9 @@ public class HealthMetric {
     @Column(name = "value", nullable = false)
     private BigDecimal value;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false, length = 45)
-    private String type;
+    private HealthMetricType type;
 
     @ManyToOne
     @JoinColumn(name = "profile_id", nullable = false)
@@ -37,7 +39,7 @@ public class HealthMetric {
         return this.value;
     }
 
-    public String getType(){
+    public HealthMetricType getType(){
         return this.type;
     }
 
@@ -49,7 +51,7 @@ public class HealthMetric {
         this.value = value;
     }
 
-    public void setType(String type){
+    public void setType(HealthMetricType type){
         this.type = type;
     }
 

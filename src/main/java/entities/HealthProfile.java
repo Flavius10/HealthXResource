@@ -17,7 +17,7 @@ public class HealthProfile {
     @Column(name = "username", length = 45, nullable = false)
     private String username;
 
-    @OneToMany(mappedBy = "profile",cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "profile",cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<HealthMetric> metrics;
 
