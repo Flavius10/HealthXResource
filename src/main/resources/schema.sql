@@ -1,0 +1,18 @@
+DROP TABLE IF EXISTS health_profile CASCADE;
+DROP TABLE IF EXISTS health_metric CASCADE;
+
+
+CREATE TABLE IF NOT EXISTS health_profile(
+    id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(45) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS health_metric(
+    id INT NOT NULL AUTO_INCREMENT,
+    "value" DOUBLE NOT NULL,
+    "type" VARCHAR(45) NOT NULL,
+    profile_id INT NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT fk_profile FOREIGN KEY (profile_id) REFERENCES health_profile(id)
+);
