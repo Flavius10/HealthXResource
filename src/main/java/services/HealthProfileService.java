@@ -1,13 +1,10 @@
 package services;
 
-import entities.HealthMetric;
 import entities.HealthProfile;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import repositories.HealthMetricRepository;
+import org.springframework.transaction.annotation.Transactional;
 import repositories.HealthProfileRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,42 +12,37 @@ import java.util.Optional;
 public class HealthProfileService {
 
     private final HealthProfileRepository healthProfileRepository;
-    private final HealthMetricRepository healthMetricRepository;
 
-    public HealthProfileService(HealthProfileRepository healthProfileRepository,
-                                HealthMetricRepository healthMetricRepository) {
+    public HealthProfileService(HealthProfileRepository healthProfileRepository) {
         this.healthProfileRepository = healthProfileRepository;
-        this.healthMetricRepository = healthMetricRepository;
     }
 
-    public void addHealthMetric(HealthMetric healthMetric){
+    public void addHealthProfile(HealthProfile profile) {
+        Optional<HealthProfile> healthProfile = healthProfileRepository.findHealthProfileByUsername(profile.getUsername());
+
+        if (healthProfile.isEmpty()) {
+            healthProfileRepository.save(profile);
+        } else {
+            throw new RuntimeException("This health profile already exists.");
+        }
+    }
+
+    public HealthProfile findHealthProfile(String username) {
         Optional<HealthProfile> healthProfile =
-                healthProfileRepository.findHealthProfileByUsername(healthMetric.getProfile().getUsername());
-
-        healthProfile.ifPresentOrElse(
-                profile ->
-                {
-                    healthMetric.setProfile(profile);
-                    this.healthMetricRepository.save(healthMetric);
-                },
-                () -> {
-                    throw new RuntimeException("Profile not found");
-                }
-        );
-    }
-
-    public List<HealthMetric> findHealthMetricHistory(String username){
-        return this.healthMetricRepository.findHealthMetricHistory(username);
-    }
-
-    public void deleteHealMetricForUsers(String username){
-        Optional<HealthProfile> profile =
                 healthProfileRepository.findHealthProfileByUsername(username);
 
-        profile.ifPresentOrElse(healthMetricRepository::deleteAllForUser,
+        return healthProfile
+                .orElseThrow(() -> new RuntimeException("No profile found for the provided username."));
+    }
+
+    public void deleteHealthProfile(String username) {
+        Optional<HealthProfile> healthProfile =
+                healthProfileRepository.findHealthProfileByUsername(username);
+
+        healthProfile.ifPresentOrElse(
+                p -> healthProfileRepository.delete(p),
                 () -> {
-                    throw new RuntimeException("Profile not found");
-                }
-        );
+                    throw new RuntimeException("No profile found for the provided username.");
+                });
     }
 }
