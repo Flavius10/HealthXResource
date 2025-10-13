@@ -1,6 +1,7 @@
 package services;
 
 import entities.HealthProfile;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repositories.HealthProfileRepository;
@@ -17,6 +18,7 @@ public class HealthProfileService {
         this.healthProfileRepository = healthProfileRepository;
     }
 
+    @PostAuthorize("profile.username == authentication.principal.claims['user_name']")
     public void addHealthProfile(HealthProfile profile) {
         Optional<HealthProfile> healthProfile = healthProfileRepository.findHealthProfileByUsername(profile.getUsername());
 
