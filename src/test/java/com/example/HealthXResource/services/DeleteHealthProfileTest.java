@@ -2,6 +2,7 @@ package com.example.HealthXResource.services;
 
 import entities.HealthProfile;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import static org.mockito.Mockito.*;
 public class DeleteHealthProfileTest {
 
 
-    @Autowired
+    @InjectMocks
     private HealthProfileService healthProfileService;
 
     @Mock

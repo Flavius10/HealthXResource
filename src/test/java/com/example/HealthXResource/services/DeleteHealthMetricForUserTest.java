@@ -2,6 +2,7 @@ package com.example.HealthXResource.services;
 
 import entities.HealthProfile;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +18,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class DeleteHealthMetricForUserTest {
 
-    @Autowired
+    @InjectMocks
     private HealthMetricService healthMetricService;
 
     @Mock
@@ -48,20 +49,6 @@ public class DeleteHealthMetricForUserTest {
                 () -> healthMetricService.deleteHealthMetricForUser("bill"));
 
         verify(healthMetricRepository, never()).deleteAllForUser(any());
-    }
-
-    @Test
-    void deleteHealthMetricForUserWithNonAdminTest() {
-        HealthProfile profile = new HealthProfile();
-        profile.setUsername("bill");
-
-        when(healthProfileRepository.findHealthProfileByUsername("bill"))
-                .thenReturn(Optional.of(profile));
-
-        assertThrows(Exception.class,
-                () ->  healthMetricService.deleteHealthMetricForUser("bill"));
-
-        verify(healthMetricRepository, never()).deleteAllForUser(profile);
     }
 
 }

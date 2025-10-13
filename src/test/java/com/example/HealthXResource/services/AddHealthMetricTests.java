@@ -3,6 +3,7 @@ package com.example.HealthXResource.services;
 import entities.HealthMetric;
 import entities.HealthProfile;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.*;
 public class AddHealthMetricTests {
 
 
-    @Autowired
+    @InjectMocks
     private HealthMetricService healthMetricService;
 
     @Mock
