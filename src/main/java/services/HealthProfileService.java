@@ -31,7 +31,7 @@ public class HealthProfileService {
     }
 
     @PostAuthorize("returnObject.username == authentication.principal.claims['user_name'] " +
-            " || hasAuthority('admin')")
+            " or hasAuthority('admin')")
     public HealthProfile findHealthProfile(String username) {
         Optional<HealthProfile> healthProfile =
                 healthProfileRepository.findHealthProfileByUsername(username);
