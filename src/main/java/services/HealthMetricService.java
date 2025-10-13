@@ -2,6 +2,8 @@ package services;
 
 import entities.HealthMetric;
 import entities.HealthProfile;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repositories.HealthMetricRepository;
@@ -22,6 +24,7 @@ public class HealthMetricService {
         this.healthProfileRepository = healthProfileRepository;
     }
 
+    @PreAuthorize("#healthMetric.profile.username == authentication.principal.claims['user_name']")
     public void addHealthMetric(HealthMetric healthMetric) {
         Optional<HealthProfile> profile = healthProfileRepository.findHealthProfileByUsername(healthMetric.getProfile().getUsername());
 
