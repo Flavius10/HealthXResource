@@ -45,6 +45,7 @@ public class HealthMetricService {
         return healthMetricRepository.findHealthMetricHistory(username);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     public void deleteHealthMetricForUser(String username) {
         Optional<HealthProfile> profile = healthProfileRepository.findHealthProfileByUsername(username);
 
