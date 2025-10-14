@@ -8,6 +8,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
@@ -63,6 +64,13 @@ public class SecurityConfig {
 
       return http.build();
 
+    }
+
+    /// By defining this object as a Bean,
+    ///  Spring Security is exposed as SpEL expressions for creating Spring Data queries.
+    @Bean
+    public SecurityEvaluationContextExtension securityEvaluationContextExtension(){
+        return new SecurityEvaluationContextExtension();
     }
 
 }
